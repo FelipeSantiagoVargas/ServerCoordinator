@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors')
 
-let hours, minutes, seconds = 0;
 let dateServer;
 let servers = [];
 let adjustment = [];
@@ -31,7 +30,8 @@ app.post('/register',(req,res)=>{
     let aux = false;
     if(servers.length>0){
         aux = servers.find((element) => {
-            if((element.port==req.body.port) && (element.id == req.body.id)){
+            if((element.port===req.body.port) && (element.ip === req.body.ip)){
+                console.log("Entro aqui")
                 return true;
             }else{
                 return false;
