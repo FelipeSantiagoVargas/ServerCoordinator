@@ -31,7 +31,6 @@ app.post('/register',(req,res)=>{
     if(servers.length>0){
         aux = servers.find((element) => {
             if((element.port===req.body.port) && (element.ip === req.body.ip)){
-                console.log("Entro aqui")
                 return true;
             }else{
                 return false;
