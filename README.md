@@ -1,5 +1,7 @@
 # ServerCoordinator
 
+docker network create --driver bridge clocks
+
 docker build -t servercoordinator .
 
-docker run -d --name servercoordinator -p 3001:3000 servercoordinator
+docker run -dit --rm --name servercoordinator -p 4000:3000 --network clocks servercoordinator
