@@ -1,4 +1,5 @@
 # ServerCoordinator
+## Para la ejecución del servidor coordinador deben ejecutarse los siguientes comandos
 
 docker network create --driver bridge clocks
 
@@ -6,15 +7,43 @@ docker build -t servercoordinator .
 
 docker run -dit --rm --name servercoordinator -p 4000:3000 --network clocks servercoordinator
 
+# Servidor Coordinador 1.0.0 documentation
 
-# Sincronizacion de relojes 1.0.0 documentation
-
-Sincronización de relojes mediante el uso del Algoritmo de Berkeley
+Servidor encargado de acceder a un servidor externo para mostrar la hora y ejecutar el algoritmo de berkeley para su sincronización
 ## Table of Contents
 
 * [Channels](#channels)
 
 ## Channels
+
+### **client/info** Channel
+
+#### `subscribe` Operation
+
+##### Message
+
+*Crea las filas para mostrar en la tabla de servidores registrados desde el dashboard del servidor coordinador*
+
+###### Payload
+
+| Name | Type | Description | Accepted values |
+|-|-|-|-|
+| servers | array | Servers | _Any_ |
+| servers.port | string | Puerto | _Any_ |
+| servers.ip | string | IP | _Any_ |
+
+> Examples of payload _(generated)_
+
+```json
+{
+  "servers": [],
+  "servers.port": "string",
+  "servers.ip": "string"
+}
+```
+
+
+
 
 ### **server/connection** Channel
 
@@ -22,55 +51,46 @@ Sincronización de relojes mediante el uso del Algoritmo de Berkeley
 
 ##### Message
 
-*Envía la hora del cliente y también un objeto con la actualización de las horas y su respectivo ajuste*
+*Permite la conexión para ejecutar el bash de creación de nueva instancia*
 
 ###### Payload
 
 | Name | Type | Description | Accepted values |
 |-|-|-|-|
-| server/dateServer | string | Envía la hora del cliente | _Any_ |
-| server/info | object | Emite la información con la hora actual, el ajuste y la nueva hora | _Any_ |
-| server/info.actualDate | string | - | _Any_ |
-| server/info.adjust | number | - | _Any_ |
-| server/info.newDate | string | - | _Any_ |
+| socket | string | Socket | _Any_ |
 
 > Examples of payload _(generated)_
 
 ```json
 {
-  "server/dateServer": "string",
-  "server/info": {
-    "actualDate": "string",
-    "adjust": 0,
-    "newDate": "string"
-  }
+  "socket": "string"
 }
 ```
 
 
 
 
-### **servercoordinator/info** Channel
+### **server/instance** Channel
 
 #### `subscribe` Operation
 
 ##### Message
 
-*Obtiene la lista de servidores para mostrarlas en el dashboard*
+*Ejecuta el bash de creación de nueva instancia*
 
 ###### Payload
 
 | Name | Type | Description | Accepted values |
 |-|-|-|-|
-| servercoordinator/servers | array | Lista de servidores. | _Any_ |
-| servercoordinator/servers.ip | string | - | _Any_ |
-| servercoordinator/servers.port | string | - | _Any_ |
+| counter | integer | Contador de puertos | _Any_ |
 
 > Examples of payload _(generated)_
 
 ```json
 {
-  "servercoordinator/servers": []
+  "counter": 0
 }
 ```
+
+
 
